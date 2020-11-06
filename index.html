@@ -216,6 +216,8 @@
       ];
 
       // Do not touch v
+
+
       function getGhostInfoMatches(present, notPresent) {
         return Object.values(
           _.pickBy(
@@ -226,6 +228,8 @@
           )
         );
       }
+
+
 
       function getRemainingEvidenceIds(present, notPresent) {
         return _.difference(
@@ -238,22 +242,30 @@
       }
       // Do not touch ^
 
-      let evidenceArray = [];
+      let evidenceArray = []; //evidence that was found
+      let crossedEvidenceArray = []; //eveidence that we are fairly certain is not relevant
 
       function toggleEvidence(evidence) {
         console.clear();
 
-        // if that evidence doesn't exist in the array (-1)
-        if (evidenceArray.indexOf(evidence) === -1) {
+        //if evidence is unlisted - add to checked list
+        if (evidenceArray.indexOf(evidence) === -1 && crossedEvidenceArray.indexOf(evidence) === -1) { 
           evidenceArray.push(evidence);
-        } else {
+
+        //if evidence is checked - add to crossed list
+        } else if (evidenceArray.indexOf(evidence) != -1) {
           evidenceArray.splice(evidenceArray.indexOf(evidence), 1);
+          crossedEvidenceArray.push(evidence);
+
+        //if evidence is crossed - remove it from all lists
+        } else {
+          crossedEvidenceArray.splice(crossedEvidenceArray.indexOf(evidence), 1);
         }
 
         // get ghost matches according to entered evidence
         document.getElementById("possibleGhosts").innerHTML = "";
 
-        getGhostInfoMatches(evidenceArray, []).forEach((ghostInfo) => {
+        getGhostInfoMatches(evidenceArray, crossedEvidenceArray).forEach((ghostInfo) => {
           // getGhostMatches([foundEvidence], [missingEvidence])
           document.getElementById("possibleGhosts").innerHTML +=
             "<li>" + ghostInfo.name + "</li> <p>" + ghostInfo.description;
@@ -277,7 +289,7 @@
         document.getElementById("freezingtemperatures").style.backgroundImage =
           "url('btnsDisabled/freezingtemperatures.png')";
 
-        getRemainingEvidenceIds(evidenceArray, []).forEach((evidenceId) => {
+        getRemainingEvidenceIds(evidenceArray, crossedEvidenceArray).forEach((evidenceId) => {
           document.getElementById(
             getEvidenceByID(evidenceId)
           ).style.backgroundImage =
@@ -289,6 +301,17 @@
             getEvidenceByID(evidenceArray[i])
           ).style.backgroundImage =
             "url('btnsChecked/" + getEvidenceByID(evidenceArray[i]) + ".png')"; // selected button
+        }
+
+        //this mode visually ditinguishes between automatically filtered evidence and manually filtered evidence 
+        let three_evidence_states_mode = true;
+        if(three_evidence_states_mode) {
+          for (var i = 0; i < crossedEvidenceArray.length; i++) {
+            document.getElementById(
+              getEvidenceByID(crossedEvidenceArray[i])
+            ).style.backgroundImage =
+              "url('btnsCrossed/" + getEvidenceByID(crossedEvidenceArray[i]) + ".png')"; // selected button
+          }
         }
       }
 
