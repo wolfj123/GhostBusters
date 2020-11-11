@@ -84,6 +84,12 @@
         color: rgb(45, 45, 45);
       }
 
+      .handwriting {
+        font-family: "Kalam", cursive;
+        color: rgb(45, 45, 45);
+        font-size: large;
+      }
+
       #legend p {
         font-size: 1.5em;
       }
@@ -96,7 +102,7 @@
         height: 30px;
         width: 30px;
       }
-
+      #advanced_mode_toggle,
       #emf,
       #spiritbox,
       #fingerprints,
@@ -109,6 +115,7 @@
         background-position: left;
       }
 
+      #advanced_mode_toggle:hover,
       #emf:hover,
       #spiritbox:hover,
       #fingerprints:hover,
@@ -116,6 +123,10 @@
       #ghostwritings:hover,
       #freezingtemperatures:hover {
         cursor: pointer;
+      }
+
+      #advanced_mode_toggle{
+        background-image: url("assets/check_box_empty.png");
       }
 
       #emf {
@@ -267,13 +278,16 @@
       let crossedEvidenceArray = []; //eveidence that we are fairly certain is not relevant
 
       //this mode visually ditinguishes between automatically filtered evidence and manually filtered evidence 
-      let three_evidence_states_mode = false;
+      let advanced_mode = false;
       
 
       function toggleAdvancedMode() {
-        three_evidence_states_mode = !three_evidence_states_mode;
+        advanced_mode = !advanced_mode;
        
-        document.getElementById("legend").style.display = three_evidence_states_mode ? "block" : "none";
+        document.getElementById("legend").style.display = advanced_mode ? "block" : "none";
+        document.getElementById("advanced_mode_toggle").style.backgroundImage = advanced_mode ? 
+          "url('assets/check_box_checked.png')" : 
+          "url('assets/check_box_empty.png')";
         reset();
       }
      
@@ -293,7 +307,7 @@
       function toggleEvidence(evidence) {
         console.clear();
 
-        updateEvidenceArrays(evidence, three_evidence_states_mode);
+        updateEvidenceArrays(evidence, advanced_mode);
 
         // get ghost matches according to entered evidence
         document.getElementById("possibleGhosts").innerHTML = "";
@@ -336,7 +350,7 @@
             "url('assets/btnsChecked/" + getEvidenceByID(evidenceArray[i]) + ".png')"; // selected button
         }
 
-        if(three_evidence_states_mode) {
+        if(advanced_mode) {
           for (var i = 0; i < crossedEvidenceArray.length; i++) {
             document.getElementById(
               getEvidenceByID(crossedEvidenceArray[i])
@@ -408,7 +422,11 @@
         <div class="col-12 col-lg-5">
           <div id="evidence">
             <h1>Evidence found</h1>
-            <div class="button" id="emf" onClick="toggleEvidence(1)"></div>
+            <div 
+              class="button" 
+              id="emf" 
+              onClick="toggleEvidence(1)"
+            ></div>
             <div
               class="button"
               id="spiritbox"
@@ -438,6 +456,18 @@
           </div>
           
           <!-- <button class="btn" id="check_box" onClick="toggleAdvancedMode()"></button> -->
+          <div class="row">
+            <div class="col-1">
+              <div 
+                class="button" 
+                id="advanced_mode_toggle" 
+                onClick="toggleAdvancedMode()"
+              ></div>
+            </div>
+            <div class="col-3">
+              <p class="handwriting">Advanced Mode</p>
+            </div>
+          </div>
           <div id="legend" style="display: none;">
             <h1>Legend</h1>
             <ul>
