@@ -119,27 +119,27 @@
       }
 
       #emf {
-        background-image: url("btnsUnchecked/emf.png");
+        background-image: url("assets/btnsUnchecked/emf.png");
       }
 
       #spiritbox {
-        background-image: url("btnsUnchecked/spiritbox.png");
+        background-image: url("assets/btnsUnchecked/spiritbox.png");
       }
 
       #fingerprints {
-        background-image: url("btnsUnchecked/fingerprints.png");
+        background-image: url("assets/btnsUnchecked/fingerprints.png");
       }
 
       #ghostorbs {
-        background-image: url("btnsUnchecked/ghostorbs.png");
+        background-image: url("assets/btnsUnchecked/ghostorbs.png");
       }
 
       #ghostwritings {
-        background-image: url("btnsUnchecked/ghostwritings.png");
+        background-image: url("assets/btnsUnchecked/ghostwritings.png");
       }
 
       #freezingtemperatures {
-        background-image: url("btnsUnchecked/freezingtemperatures.png");
+        background-image: url("assets/btnsUnchecked/freezingtemperatures.png");
       }
 
       .weakness {
@@ -287,7 +287,7 @@
           document.getElementById(
             getEvidenceByID(evidenceId)
           ).style.backgroundImage =
-            "url('btnsUnchecked/" + getEvidenceByID(evidenceId) + ".png')"; // enabled button (possible evidence)
+            "url('assets/btnsUnchecked/" + getEvidenceByID(evidenceId) + ".png')"; // enabled button (possible evidence)
         }
       }
 
@@ -311,30 +311,30 @@
         }
 
         document.getElementById("emf").style.backgroundImage =
-          "url('btnsDisabled/emf.png')";
+          "url('assets/btnsDisabled/emf.png')";
         document.getElementById("spiritbox").style.backgroundImage =
-          "url('btnsDisabled/spiritbox.png')";
+          "url('assets/btnsDisabled/spiritbox.png')";
         document.getElementById("fingerprints").style.backgroundImage =
-          "url('btnsDisabled/fingerprints.png')";
+          "url('assets/btnsDisabled/fingerprints.png')";
         document.getElementById("ghostorbs").style.backgroundImage =
-          "url('btnsDisabled/ghostorbs.png')";
+          "url('assets/btnsDisabled/ghostorbs.png')";
         document.getElementById("ghostwritings").style.backgroundImage =
-          "url('btnsDisabled/ghostwritings.png')";
+          "url('assets/btnsDisabled/ghostwritings.png')";
         document.getElementById("freezingtemperatures").style.backgroundImage =
-          "url('btnsDisabled/freezingtemperatures.png')";
+          "url('assets/btnsDisabled/freezingtemperatures.png')";
 
         getRemainingEvidenceIds(evidenceArray, crossedEvidenceArray).forEach((evidenceId) => {
           document.getElementById(
             getEvidenceByID(evidenceId)
           ).style.backgroundImage =
-            "url('btnsUnchecked/" + getEvidenceByID(evidenceId) + ".png')"; // enabled button (possible evidence)
+            "url('assets/btnsUnchecked/" + getEvidenceByID(evidenceId) + ".png')"; // enabled button (possible evidence)
         });
 
         for (var i = 0; i < evidenceArray.length; i++) {
           document.getElementById(
             getEvidenceByID(evidenceArray[i])
           ).style.backgroundImage =
-            "url('btnsChecked/" + getEvidenceByID(evidenceArray[i]) + ".png')"; // selected button
+            "url('assets/btnsChecked/" + getEvidenceByID(evidenceArray[i]) + ".png')"; // selected button
         }
 
         if(three_evidence_states_mode) {
@@ -342,7 +342,7 @@
             document.getElementById(
               getEvidenceByID(crossedEvidenceArray[i])
             ).style.backgroundImage =
-              "url('btnsCrossed/" + getEvidenceByID(crossedEvidenceArray[i]) + ".png')"; // selected button
+              "url('assets/btnsCrossed/" + getEvidenceByID(crossedEvidenceArray[i]) + ".png')"; // selected button
           }
         }
       }
@@ -374,7 +374,6 @@
         }
       }
 
-
       function getEvidenceByID(id) {
         switch (id) {
           case 1:
@@ -399,7 +398,6 @@
             return "error";
         }
       }
-
 
     </script>
   </head>
@@ -448,12 +446,12 @@
             <h1>Legend</h1>
             <ul>
               <p>
-                <img src="v-evidence.png"> - This means we have found the evidence.
+                <img src="assets/v-evidence.png"> - This means we have found the evidence.
               </p>
             </ul>
             <ul>
               <p>
-                <img src="x-evidence.png"> - This means we are <b>certain</b> the evidence cannot be found.
+                <img src="assets/x-evidence.png"> - This means we are <b>certain</b> the evidence cannot be found.
               </p>
             </ul>
           </div>
