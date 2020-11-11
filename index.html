@@ -156,7 +156,14 @@
       // 4 = Ghost Orbs
       // 5 = Ghost Writings
       // 6 = Freezing Temperatures
+      EMF = 1;
+      SPIRIT_BOX = 2;
+      FINGERPRINTS = 3;
+      GHOST_ORBS = 4;
+      GHOST_WRITINGS = 5;
+      FREEZING_TEMPERATURES = 6
 
+    
       // ghost definitions
       const ghostInfos = [
         {
@@ -247,8 +254,6 @@
         );
       }
 
-
-
       function getRemainingEvidenceIds(present, notPresent) {
         return _.difference(
           _.flatMap(
@@ -263,22 +268,33 @@
       let evidenceArray = []; //evidence that was found
       let crossedEvidenceArray = []; //eveidence that we are fairly certain is not relevant
 
+      //this mode visually ditinguishes between automatically filtered evidence and manually filtered evidence 
+      let three_evidence_states_mode = true;
+
+      function toggleAdvancedMode() {
+        three_evidence_states_mode = !three_evidence_states_mode;
+       
+        document.getElementById("legend").style.display = three_evidence_states_mode ? "block" : "none";
+        reset();
+      }
+     
+      function reset(){
+        evidenceArray = [];
+        crossedEvidenceArray = [];
+        document.getElementById("possibleGhosts").innerHTML =
+            "<br /><p>We need tangible evidence. I should check rooms with an EMF reader for activity, or a thermometer for sub-zero temperatures.</p>";
+        for (let evidenceId = 1; evidenceId <= 6; evidenceId++){
+          document.getElementById(
+            getEvidenceByID(evidenceId)
+          ).style.backgroundImage =
+            "url('btnsUnchecked/" + getEvidenceByID(evidenceId) + ".png')"; // enabled button (possible evidence)
+        }
+      }
+
       function toggleEvidence(evidence) {
         console.clear();
 
-        //if evidence is unlisted - add to checked list
-        if (evidenceArray.indexOf(evidence) === -1 && crossedEvidenceArray.indexOf(evidence) === -1) { 
-          evidenceArray.push(evidence);
-
-        //if evidence is checked - add to crossed list
-        } else if (evidenceArray.indexOf(evidence) != -1) {
-          evidenceArray.splice(evidenceArray.indexOf(evidence), 1);
-          crossedEvidenceArray.push(evidence);
-
-        //if evidence is crossed - remove it from all lists
-        } else {
-          crossedEvidenceArray.splice(crossedEvidenceArray.indexOf(evidence), 1);
-        }
+        updateEvidenceArrays(evidence, three_evidence_states_mode);
 
         // get ghost matches according to entered evidence
         document.getElementById("possibleGhosts").innerHTML = "";
@@ -321,8 +337,6 @@
             "url('btnsChecked/" + getEvidenceByID(evidenceArray[i]) + ".png')"; // selected button
         }
 
-        //this mode visually ditinguishes between automatically filtered evidence and manually filtered evidence 
-        let three_evidence_states_mode = true;
         if(three_evidence_states_mode) {
           for (var i = 0; i < crossedEvidenceArray.length; i++) {
             document.getElementById(
@@ -332,6 +346,34 @@
           }
         }
       }
+
+      function updateEvidenceArrays(evidence, advancedMode) {
+        if(advancedMode) {
+          //if evidence is unlisted - add to checked list
+          if (evidenceArray.indexOf(evidence) === -1 && crossedEvidenceArray.indexOf(evidence) === -1) { 
+            evidenceArray.push(evidence);
+  
+          //if evidence is checked - add to crossed list
+          } else if (evidenceArray.indexOf(evidence) != -1) {
+            evidenceArray.splice(evidenceArray.indexOf(evidence), 1);
+            crossedEvidenceArray.push(evidence);
+  
+          //if evidence is crossed - remove it from all lists
+          } else {
+            crossedEvidenceArray.splice(crossedEvidenceArray.indexOf(evidence), 1);
+          }
+        }
+        else {
+          //if evidence is unlisted - add to checked list
+          if (evidenceArray.indexOf(evidence) === -1) { 
+            evidenceArray.push(evidence);
+          //if evidence is listed - remove it from list
+          } else {
+            evidenceArray.splice(evidenceArray.indexOf(evidence), 1);
+          }
+        }
+      }
+
 
       function getEvidenceByID(id) {
         switch (id) {
@@ -357,6 +399,8 @@
             return "error";
         }
       }
+
+
     </script>
   </head>
 
@@ -394,16 +438,20 @@
               onClick="toggleEvidence(6)"
             ></div>
           </div>
+          <br>
+          <div>
 
+          </div>
+            <div class="button" id="emf" onClick="toggleAdvancedMode()"></div>
           <br>
           <div id="legend">
             <h1>Legend</h1>
-            <ul id="legend">
+            <ul>
               <p>
                 <img src="v-evidence.png"> - This means we have found the evidence.
               </p>
             </ul>
-            <ul id="legend">
+            <ul>
               <p>
                 <img src="x-evidence.png"> - This means we are <b>certain</b> the evidence cannot be found.
               </p>
