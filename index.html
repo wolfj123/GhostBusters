@@ -241,8 +241,6 @@
       ];
 
       // Do not touch v
-
-
       function getGhostInfoMatches(present, notPresent) {
         return Object.values(
           _.pickBy(
@@ -269,7 +267,8 @@
       let crossedEvidenceArray = []; //eveidence that we are fairly certain is not relevant
 
       //this mode visually ditinguishes between automatically filtered evidence and manually filtered evidence 
-      let three_evidence_states_mode = true;
+      let three_evidence_states_mode = false;
+      
 
       function toggleAdvancedMode() {
         three_evidence_states_mode = !three_evidence_states_mode;
@@ -435,14 +434,11 @@
               id="freezingtemperatures"
               onClick="toggleEvidence(6)"
             ></div>
+            <br><br>
           </div>
-          <br>
-          <div>
-
-          </div>
-            <div class="button" id="emf" onClick="toggleAdvancedMode()"></div>
-          <br>
-          <div id="legend">
+          
+          <!-- <button class="btn" id="check_box" onClick="toggleAdvancedMode()"></button> -->
+          <div id="legend" style="display: none;">
             <h1>Legend</h1>
             <ul>
               <p>
